@@ -1,0 +1,110 @@
+on:
+  push:
+    tags:
+    - 'v*' # Push events to matching v*, i.e. v1.0, v20.15.10
+
+name: Release assets
+
+permissions:
+  contents: write
+
+jobs:
+
+  buildlinux:
+    name: Deploy releases for Linux
+
+    strategy:
+      matrix:
+        os: ["linux"]
+        arch: ["386", "amd64"]
+    runs-on: ubuntu-latest
+
+    env:
+      GOOS: ${{ matrix.os }}
+      GOARCH: ${{ matrix.arch }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - uses: actions/setup-go@v4
+        with:
+          go-version: ^1.20
+
+      - name: Build
+        run: |
+          make build
+          mv out/primaza-mon out/primaza-mon-${{ matrix.os }}-${{ matrix.arch }}
+
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        with:
+          prerelease: true
+          files: |
+            ./out/primaza-mon-${{ matrix.os }}-${{ matrix.arch }}
+
+  buildwin:
+    name: Deploy releases for Windows
+
+    strategy:
+      matrix:
+        os: ["windows"]
+        arch: ["386", "amd64"]
+    runs-on: ubuntu-latest
+
+    env:
+      GOOS: ${{ matrix.os }}
+      GOARCH: ${{ matrix.arch }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - uses: actions/setup-go@v4
+        with:
+          go-version: ^1.20
+
+      - name: Build
+        run: |
+          make build
+          mv out/primaza-mon out/primaza-mon-${{ matrix.os }}-${{ matrix.arch }}.exe
+
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        with:
+          prerelease: true
+          files: |
+            ./out/primaza-mon-${{ matrix.os }}-${{ matrix.arch }}.exe
+
+  buildmac:
+    name: Deploy releases for Mac
+
+    strategy:
+      matrix:
+        os: ["darwin"]
+        arch: ["amd64"]
+    runs-on: ubuntu-latest
+
+    env:
+      GOOS: ${{ matrix.os }}
+      GOARCH: ${{ matrix.arch }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - uses: actions/setup-go@v4
+        with:
+          go-version: ^1.20
+
+      - name: Build
+        run: |
+          make build
+          mv out/primaza-mon out/primaza-mon-${{ matrix.os }}-${{ matrix.arch }}
+
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        with:
+          prerelease: true
+          files: |
+            ./out/primaza-mon-${{ matrix.os }}-${{ matrix.arch }}

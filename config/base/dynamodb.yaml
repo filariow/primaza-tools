@@ -1,0 +1,18 @@
+apiVersion: primaza.io/v1alpha1
+kind: RegisteredService
+metadata:
+  name: dynamo
+spec:
+  serviceClassIdentity:
+  - name: type
+    value: dynamo
+  - name: scope
+    value: demo-app
+  - name: provider
+    value: aws
+  serviceEndpointDefinition:
+  - name: url
+    value: https://my-app-for-appns-service.dev
+  - name: password
+    value: SomeoneThinksImAPassword
+
