@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: orders-events-consumer
+  name: orders-events-consumer
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: orders-events-consumer
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: orders-events-consumer
+    spec:
+      containers:
+      - command:
+        - sleep
+        - infinte
+        image: bash:latest
+        name: bash
+        resources: {}

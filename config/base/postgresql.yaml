@@ -1,0 +1,20 @@
+apiVersion: primaza.io/v1alpha1
+kind: RegisteredService
+metadata:
+  name: rds-postgres
+spec:
+  serviceClassIdentity:
+  - name: type
+    value: rds
+  - name: scope
+    value: demo-app
+  - name: provider
+    value: aws
+  - name: engine
+    value: postgres
+  serviceEndpointDefinition:
+  - name: url
+    value: https://my-app-for-appns-service.dev
+  - name: password
+    value: SomeoneThinksImAPassword
+

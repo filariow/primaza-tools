@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: orders
+  name: orders
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: orders
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: orders
+    spec:
+      containers:
+      - command:
+        - sleep
+        - infinte
+        image: bash:latest
+        name: bash
+        resources: {}
