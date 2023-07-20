@@ -13,7 +13,7 @@ type ControlPlaneClient struct {
 	cli client.Client
 }
 
-func NewClient(cli client.Client) *ControlPlaneClient {
+func NewControlPlaneClient(cli client.Client) *ControlPlaneClient {
 	return &ControlPlaneClient{cli: cli}
 }
 

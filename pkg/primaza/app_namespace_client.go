@@ -27,12 +27,7 @@ func NewApplicationClientForClusterEnvironment(
 		return nil, err
 	}
 
-	// TODO: add Primaza's CRDs here
-	oc := client.Options{
-		// Scheme: scheme,
-		// Mapper: mapper,
-	}
-	c, err := client.New(cfg, oc)
+	c, err := NewClient(cfg)
 	if err != nil {
 		return nil, err
 	}

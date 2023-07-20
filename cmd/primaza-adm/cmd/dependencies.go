@@ -4,14 +4,14 @@ Copyright © 2023 NAME HERE <EMAIL ADDRESS>
 package cmd
 
 import (
-	"encoding/json"
 	"fmt"
 	"os"
 
+	"github.com/primaza/primaza-tools/pkg/console"
 	"github.com/primaza/primaza-tools/pkg/dependencies"
 	"github.com/primaza/primaza-tools/pkg/mermaid"
+	"github.com/primaza/primaza-tools/pkg/primaza"
 	"github.com/spf13/cobra"
-	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/client/config"
 )
 
@@ -27,7 +27,9 @@ This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 	Args: cobra.MatchAll(cobra.ExactArgs(1)),
 	RunE: func(cmd *cobra.Command, args []string) error {
-		cli, err := client.New(config.GetConfigOrDie(), client.Options{})
+		printer := console.NewPrinterOrDie(console.Format(outputFlag))
+
+		cli, err := primaza.NewClient(config.GetConfigOrDie())
 		if err != nil {
 			fmt.Fprintf(os.Stderr, "error creating Kubernetes API Client: %s", err)
 			return nil
@@ -40,13 +42,7 @@ to quickly create a Cobra application.`,
 			fmt.Fprintf(os.Stderr, "error crawling service dependencies: %s", err)
 		}
 
-		d, err := json.Marshal(sdd)
-		if err != nil {
-			return err
-		}
-
-		fmt.Fprintln(os.Stdout, string(d))
-		return nil
+		return printer.Println(&sdd[0])
 	},
 }
 

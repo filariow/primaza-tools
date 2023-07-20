@@ -5,6 +5,10 @@ import (
 	"strings"
 )
 
+var (
+	InvalidTypeError error = fmt.Errorf("given object can not be serialized as mermaid")
+)
+
 type Graph struct {
 	Name        string
 	Adjacencies []Adjancency
@@ -29,4 +33,21 @@ func (m Graph) String() string {
 	}
 
 	return b.String()
+}
+
+type Graphable interface {
+	ToGraph() (Graph, error)
+}
+
+func NewGraph(v any) (*Graph, error) {
+	g, ok := v.(Graphable)
+	if !ok {
+		return nil, InvalidTypeError
+	}
+
+	gh, err := g.ToGraph()
+	if err != nil {
+		return nil, err
+	}
+	return &gh, nil
 }
