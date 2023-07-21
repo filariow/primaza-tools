@@ -4,13 +4,14 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"log"
 
 	"github.com/primaza/primaza-tools/pkg/mermaid"
 	"github.com/primaza/primaza-tools/pkg/primaza"
 	primazaiov1alpha1 "github.com/primaza/primaza/api/v1alpha1"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 )
+
+type Dependencies []ServiceDependencies
 
 type ServiceDependencies struct {
 	ClusterEnvironment primazaiov1alpha1.ClusterEnvironment
@@ -53,7 +54,6 @@ func (c *ServiceDependenciesCrawler) CrawlServiceDependencies(ctx context.Contex
 	errs := []error{}
 
 	for _, ce := range cee {
-		log.Printf("found ClusterEnvironment %s", ce.Name)
 		acli, err := pcli.NewApplicationClientForClusterEnvironment(ctx, ce)
 		if err != nil {
 			werr := fmt.Errorf("error building client for Cluster Environment '%s': %w", ce.Name, err)
@@ -66,8 +66,6 @@ func (c *ServiceDependenciesCrawler) CrawlServiceDependencies(ctx context.Contex
 		}
 
 		for _, ns := range ce.Spec.ApplicationNamespaces {
-			log.Printf("found Application Namespace %s in ClusterEnvironment %s", ns, ce.Name)
-
 			sbb, err := acli.GetServiceBindings(ctx, ns)
 			if err != nil {
 				werr := fmt.Errorf(
@@ -76,8 +74,6 @@ func (c *ServiceDependenciesCrawler) CrawlServiceDependencies(ctx context.Contex
 				errs = append(errs, werr)
 				continue
 			}
-
-			log.Printf("found ServiceBindings %v", sbb)
 
 			sd.ServiceBindings = append(sd.ServiceBindings, sbb...)
 		}

@@ -2,7 +2,6 @@ package console
 
 import (
 	"fmt"
-	"log"
 )
 
 type Formatter interface {
@@ -14,7 +13,6 @@ func NewFormatter(format Format) (Formatter, error) {
 	case FormatJson:
 		return &JsonFormatter{}, nil
 	case FormatMermaid:
-		log.Println("using mermaid formatter")
 		return &MermaidFormatter{}, nil
 	}
 

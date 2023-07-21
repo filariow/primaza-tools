@@ -1,0 +1,16 @@
+apiVersion: primaza.io/v1alpha1
+kind: RegisteredService
+metadata:
+  name: claim-for-appns
+spec:
+  serviceClassIdentity:
+  - name: type
+    value: dummy
+  - name: scope
+    value: claim-for-appns
+  serviceEndpointDefinition:
+  - name: url
+    value: https://my-app-for-appns-service.dev
+  - name: password
+    value: SomeoneThinksImAPassword
+

@@ -4,6 +4,7 @@ Copyright © 2023 NAME HERE <EMAIL ADDRESS>
 package cmd
 
 import (
+	"errors"
 	"fmt"
 	"os"
 
@@ -42,7 +43,13 @@ to quickly create a Cobra application.`,
 			fmt.Fprintf(os.Stderr, "error crawling service dependencies: %s", err)
 		}
 
-		return printer.Println(&sdd[0])
+		errs := []error{}
+		for _, sd := range sdd {
+			if err := printer.Println(&sd); err != nil {
+				errs = append(errs, err)
+			}
+		}
+		return errors.Join(errs...)
 	},
 }
 
