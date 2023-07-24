@@ -17,6 +17,7 @@ type Graph struct {
 type Adjancency struct {
 	Start string
 	End   string
+	Text  string
 }
 
 func (m Graph) String() string {
@@ -26,7 +27,7 @@ func (m Graph) String() string {
 	b.WriteString(fmt.Sprintf("\taccTitle: %s;\n", m.Name))
 
 	for i, a := range m.Adjacencies {
-		b.WriteString(fmt.Sprintf("\t%s --> %s;", a.Start, a.End))
+		b.WriteString(fmt.Sprintf("\t%s --%s--> %s;", a.Start, a.Text, a.End))
 		if i < len(m.Adjacencies) {
 			b.WriteRune('\n')
 		}
