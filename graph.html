@@ -1,0 +1,405 @@
+<div class="mermaid">
+
+graph TD;
+	accTitle: self-demo;
+	catalog --> catalog-rds;
+	catalog-rds --> rds-postgres;
+	orders --> orders-dynamo;
+	orders-dynamo --> dynamo;
+	catalog --> sqs-catalog;
+	sqs-catalog --> sqs-queue-reader;
+	orders-events-consumer --> sqs-orders-event;
+	sqs-orders-event --> sqs-queue-writer;
+
+	click catalog-rds callback "{
+  'kind': 'ServiceBinding',
+  'apiVersion': 'primaza.io/v1alpha1',
+  'metadata': {
+    'name': 'catalog-rds',
+    'namespace': 'applications',
+    'uid': 'cff95e71-0b2b-4719-b446-52fefccd7c7c',
+    'resourceVersion': '924',
+    'generation': 1,
+    'creationTimestamp': '2023-07-31T10:46:31Z',
+    'annotations': {
+      'primaza.io/registered-service-name': 'rds-postgres',
+      'primaza.io/registered-service-uid': '18553470-0e21-46ad-9f97-2da321c39b5e'
+    },
+    'managedFields': [
+      {
+        'manager': 'Go-http-client',
+        'operation': 'Update',
+        'apiVersion': 'primaza.io/v1alpha1',
+        'time': '2023-07-31T10:46:31Z',
+        'fieldsType': 'FieldsV1',
+        'fieldsV1': {
+          'f:metadata': {
+            'f:annotations': {
+              '.': {},
+              'f:primaza.io/registered-service-name': {},
+              'f:primaza.io/registered-service-uid': {}
+            }
+          },
+          'f:spec': {
+            '.': {},
+            'f:application': {
+              '.': {},
+              'f:apiVersion': {},
+              'f:kind': {},
+              'f:selector': {}
+            },
+            'f:serviceEndpointDefinitionSecret': {}
+          }
+        }
+      },
+      {
+        'manager': 'Go-http-client',
+        'operation': 'Update',
+        'apiVersion': 'primaza.io/v1alpha1',
+        'time': '2023-07-31T10:46:31Z',
+        'fieldsType': 'FieldsV1',
+        'fieldsV1': {
+          'f:metadata': {
+            'f:finalizers': {
+              '.': {},
+              'v:\'servicebindings.primaza.io/finalizer\'': {}
+            }
+          },
+          'f:status': {
+            '.': {},
+            'f:conditions': {},
+            'f:connections': {},
+            'f:state': {}
+          }
+        },
+        'subresource': 'status'
+      }
+    ]
+  },
+  'spec': {
+    'serviceEndpointDefinitionSecret': 'catalog-rds',
+    'application': {
+      'apiVersion': 'apps/v1',
+      'kind': 'Deployment',
+      'selector': {
+        'matchLabels': {
+          'app': 'catalog'
+        }
+      }
+    }
+  },
+  'status': {
+    'conditions': [
+      {
+        'type': 'Bound',
+        'status': 'True',
+        'lastTransitionTime': '2023-07-31T10:46:31Z',
+        'reason': 'Successful',
+        'message': ''
+      }
+    ],
+    'state': 'Ready',
+    'connections': [
+      {
+        'name': 'catalog'
+      }
+    ]
+  }
+}"
+	click orders-dynamo callback "{
+  'kind': 'ServiceBinding',
+  'apiVersion': 'primaza.io/v1alpha1',
+  'metadata': {
+    'name': 'orders-dynamo',
+    'namespace': 'applications',
+    'uid': '98af2f34-4484-42e8-a590-3ff69dd58910',
+    'resourceVersion': '1007',
+    'generation': 1,
+    'creationTimestamp': '2023-07-31T10:46:31Z',
+    'annotations': {
+      'primaza.io/registered-service-name': 'dynamo',
+      'primaza.io/registered-service-uid': '064d7094-abfe-4e50-b35c-a289bdc9dcbe'
+    },
+    'managedFields': [
+      {
+        'manager': 'Go-http-client',
+        'operation': 'Update',
+        'apiVersion': 'primaza.io/v1alpha1',
+        'time': '2023-07-31T10:46:31Z',
+        'fieldsType': 'FieldsV1',
+        'fieldsV1': {
+          'f:metadata': {
+            'f:annotations': {
+              '.': {},
+              'f:primaza.io/registered-service-name': {},
+              'f:primaza.io/registered-service-uid': {}
+            }
+          },
+          'f:spec': {
+            '.': {},
+            'f:application': {
+              '.': {},
+              'f:apiVersion': {},
+              'f:kind': {},
+              'f:selector': {}
+            },
+            'f:serviceEndpointDefinitionSecret': {}
+          }
+        }
+      },
+      {
+        'manager': 'Go-http-client',
+        'operation': 'Update',
+        'apiVersion': 'primaza.io/v1alpha1',
+        'time': '2023-07-31T10:46:32Z',
+        'fieldsType': 'FieldsV1',
+        'fieldsV1': {
+          'f:metadata': {
+            'f:finalizers': {
+              '.': {},
+              'v:\'servicebindings.primaza.io/finalizer\'': {}
+            }
+          },
+          'f:status': {
+            '.': {},
+            'f:conditions': {},
+            'f:connections': {},
+            'f:state': {}
+          }
+        },
+        'subresource': 'status'
+      }
+    ]
+  },
+  'spec': {
+    'serviceEndpointDefinitionSecret': 'orders-dynamo',
+    'application': {
+      'apiVersion': 'apps/v1',
+      'kind': 'Deployment',
+      'selector': {
+        'matchLabels': {
+          'app': 'orders'
+        }
+      }
+    }
+  },
+  'status': {
+    'conditions': [
+      {
+        'type': 'Bound',
+        'status': 'True',
+        'lastTransitionTime': '2023-07-31T10:46:31Z',
+        'reason': 'Successful',
+        'message': ''
+      }
+    ],
+    'state': 'Ready',
+    'connections': [
+      {
+        'name': 'orders'
+      }
+    ]
+  }
+}"
+	click sqs-catalog callback "{
+  'kind': 'ServiceBinding',
+  'apiVersion': 'primaza.io/v1alpha1',
+  'metadata': {
+    'name': 'sqs-catalog',
+    'namespace': 'applications',
+    'uid': '45d86399-95e0-4835-9300-ae4e18d99bec',
+    'resourceVersion': '1010',
+    'generation': 1,
+    'creationTimestamp': '2023-07-31T10:46:31Z',
+    'annotations': {
+      'primaza.io/registered-service-name': 'sqs-queue-reader',
+      'primaza.io/registered-service-uid': '83327a7e-cf7c-4f5a-9ca3-041d28a81dfd'
+    },
+    'managedFields': [
+      {
+        'manager': 'Go-http-client',
+        'operation': 'Update',
+        'apiVersion': 'primaza.io/v1alpha1',
+        'time': '2023-07-31T10:46:31Z',
+        'fieldsType': 'FieldsV1',
+        'fieldsV1': {
+          'f:metadata': {
+            'f:annotations': {
+              '.': {},
+              'f:primaza.io/registered-service-name': {},
+              'f:primaza.io/registered-service-uid': {}
+            }
+          },
+          'f:spec': {
+            '.': {},
+            'f:application': {
+              '.': {},
+              'f:apiVersion': {},
+              'f:kind': {},
+              'f:selector': {}
+            },
+            'f:serviceEndpointDefinitionSecret': {}
+          }
+        }
+      },
+      {
+        'manager': 'Go-http-client',
+        'operation': 'Update',
+        'apiVersion': 'primaza.io/v1alpha1',
+        'time': '2023-07-31T10:46:32Z',
+        'fieldsType': 'FieldsV1',
+        'fieldsV1': {
+          'f:metadata': {
+            'f:finalizers': {
+              '.': {},
+              'v:\'servicebindings.primaza.io/finalizer\'': {}
+            }
+          },
+          'f:status': {
+            '.': {},
+            'f:conditions': {},
+            'f:connections': {},
+            'f:state': {}
+          }
+        },
+        'subresource': 'status'
+      }
+    ]
+  },
+  'spec': {
+    'serviceEndpointDefinitionSecret': 'sqs-catalog',
+    'application': {
+      'apiVersion': 'apps/v1',
+      'kind': 'Deployment',
+      'selector': {
+        'matchLabels': {
+          'app': 'catalog'
+        }
+      }
+    }
+  },
+  'status': {
+    'conditions': [
+      {
+        'type': 'Bound',
+        'status': 'True',
+        'lastTransitionTime': '2023-07-31T10:46:31Z',
+        'reason': 'Successful',
+        'message': ''
+      }
+    ],
+    'state': 'Ready',
+    'connections': [
+      {
+        'name': 'catalog'
+      }
+    ]
+  }
+}"
+	click sqs-orders-event callback "{
+  'kind': 'ServiceBinding',
+  'apiVersion': 'primaza.io/v1alpha1',
+  'metadata': {
+    'name': 'sqs-orders-event',
+    'namespace': 'applications',
+    'uid': 'd2444f59-83cd-4cd8-aff3-44085253a9a0',
+    'resourceVersion': '993',
+    'generation': 1,
+    'creationTimestamp': '2023-07-31T10:46:31Z',
+    'annotations': {
+      'primaza.io/registered-service-name': 'sqs-queue-writer',
+      'primaza.io/registered-service-uid': '1d4cb8ce-b7a7-41cf-bc02-b594304607ee'
+    },
+    'managedFields': [
+      {
+        'manager': 'Go-http-client',
+        'operation': 'Update',
+        'apiVersion': 'primaza.io/v1alpha1',
+        'time': '2023-07-31T10:46:31Z',
+        'fieldsType': 'FieldsV1',
+        'fieldsV1': {
+          'f:metadata': {
+            'f:annotations': {
+              '.': {},
+              'f:primaza.io/registered-service-name': {},
+              'f:primaza.io/registered-service-uid': {}
+            }
+          },
+          'f:spec': {
+            '.': {},
+            'f:application': {
+              '.': {},
+              'f:apiVersion': {},
+              'f:kind': {},
+              'f:selector': {}
+            },
+            'f:serviceEndpointDefinitionSecret': {}
+          }
+        }
+      },
+      {
+        'manager': 'Go-http-client',
+        'operation': 'Update',
+        'apiVersion': 'primaza.io/v1alpha1',
+        'time': '2023-07-31T10:46:32Z',
+        'fieldsType': 'FieldsV1',
+        'fieldsV1': {
+          'f:metadata': {
+            'f:finalizers': {
+              '.': {},
+              'v:\'servicebindings.primaza.io/finalizer\'': {}
+            }
+          },
+          'f:status': {
+            '.': {},
+            'f:conditions': {},
+            'f:connections': {},
+            'f:state': {}
+          }
+        },
+        'subresource': 'status'
+      }
+    ]
+  },
+  'spec': {
+    'serviceEndpointDefinitionSecret': 'sqs-orders-event',
+    'application': {
+      'apiVersion': 'apps/v1',
+      'kind': 'Deployment',
+      'selector': {
+        'matchLabels': {
+          'app': 'orders-events-consumer'
+        }
+      }
+    }
+  },
+  'status': {
+    'conditions': [
+      {
+        'type': 'Bound',
+        'status': 'True',
+        'lastTransitionTime': '2023-07-31T10:46:32Z',
+        'reason': 'Successful',
+        'message': ''
+      }
+    ],
+    'state': 'Ready',
+    'connections': [
+      {
+        'name': 'orders-events-consumer'
+      }
+    ]
+  }
+}"
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+
+<script>
+    mermaid.initialize({startOnLoad:true});
+</script>
+
+<style>
+    .mermaid {  /* add custom styling */  }
+</style>

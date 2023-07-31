@@ -12,6 +12,12 @@ var (
 type Graph struct {
 	Name        string
 	Adjacencies []Adjancency
+	Nodes       []Node
+}
+
+type Node struct {
+	Name        string
+	Description string
 }
 
 type Adjancency struct {
@@ -26,11 +32,17 @@ func (m Graph) String() string {
 	b.WriteString(fmt.Sprintf("graph TD;\n"))
 	b.WriteString(fmt.Sprintf("\taccTitle: %s;\n", m.Name))
 
-	for i, a := range m.Adjacencies {
-		b.WriteString(fmt.Sprintf("\t%s --%s--> %s;", a.Start, a.Text, a.End))
-		if i < len(m.Adjacencies) {
-			b.WriteRune('\n')
-		}
+	for _, a := range m.Adjacencies {
+		b.WriteString(fmt.Sprintf("\t%s --> %s;\n", a.Start, a.Text))
+		b.WriteString(fmt.Sprintf("\t%s --> %s;\n", a.Text, a.End))
+	}
+
+	if len(m.Nodes) != 0 {
+		b.WriteString("\n")
+	}
+
+	for _, n := range m.Nodes {
+		b.WriteString(fmt.Sprintf("\tclick %s callback \"%s\"\n", n.Name, n.Description))
 	}
 
 	return b.String()
