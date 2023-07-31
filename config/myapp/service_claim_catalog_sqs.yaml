@@ -1,14 +1,18 @@
 apiVersion: primaza.io/v1alpha1
 kind: ServiceClaim
 metadata:
-  name: sc-test
+  name: sqs-catalog
   namespace: primaza-system
 spec:
   serviceClassIdentity:
   - name: type
-    value: dummy
+    value: sqs
   - name: scope
-    value: claim-for-appns
+    value: demo-app
+  - name: provider
+    value: aws
+  - name: role
+    value: reader
   serviceEndpointDefinitionKeys:
   - url
   - password
@@ -18,5 +22,4 @@ spec:
     apiVersion: apps/v1
     selector:
       matchLabels:
-        app: myapp
-
+        app: catalog

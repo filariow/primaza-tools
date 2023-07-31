@@ -1,0 +1,20 @@
+apiVersion: primaza.io/v1alpha1
+kind: RegisteredService
+metadata:
+  name: sqs-queue-reader
+spec:
+  serviceClassIdentity:
+  - name: type
+    value: sqs
+  - name: scope
+    value: demo-app
+  - name: provider
+    value: aws
+  - name: role
+    value: reader
+  serviceEndpointDefinition:
+  - name: url
+    value: https://my-app-for-appns-service.dev
+  - name: password
+    value: SomeoneThinksImAPassword
+

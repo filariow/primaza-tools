@@ -5,7 +5,7 @@ set -e
 TENANT=primaza-mytenant
 MAIN_CLUSTER=primaza-tools-main
 MAX_RETRY=10
-PRIMAZA_BRANCH=servicebinding-info
+PRIMAZA_BRANCH=svcbin-regsvc
 TMP_DIR=./out/tmp
 PRIMAZA_DIR="$TMP_DIR/primaza"
 

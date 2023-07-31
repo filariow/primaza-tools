@@ -2,7 +2,7 @@ module github.com/primaza/primaza-tools
 
 go 1.20
 
-replace github.com/primaza/primaza v0.1.0 => github.com/filariow/primaza v0.1.1-0.20230720113458-604641b7201b
+replace github.com/primaza/primaza v0.1.0 => github.com/filariow/primaza v0.1.1-0.20230731101514-9010f5a406d0
 
 require (
 	github.com/primaza/primaza v0.1.0
@@ -46,11 +46,11 @@ require (
 	github.com/prometheus/common v0.42.0 // indirect
 	github.com/prometheus/procfs v0.9.0 // indirect
 	github.com/spf13/pflag v1.0.5 // indirect
-	golang.org/x/net v0.10.0 // indirect
+	golang.org/x/net v0.12.0 // indirect
 	golang.org/x/oauth2 v0.5.0 // indirect
-	golang.org/x/sys v0.9.0 // indirect
-	golang.org/x/term v0.8.0 // indirect
-	golang.org/x/text v0.9.0 // indirect
+	golang.org/x/sys v0.10.0 // indirect
+	golang.org/x/term v0.10.0 // indirect
+	golang.org/x/text v0.11.0 // indirect
 	golang.org/x/time v0.3.0 // indirect
 	gomodules.xyz/jsonpatch/v2 v2.3.0 // indirect
 	google.golang.org/appengine v1.6.7 // indirect

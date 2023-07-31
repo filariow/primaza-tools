@@ -3,6 +3,7 @@ package dependencies
 import (
 	"github.com/primaza/primaza-tools/pkg/mermaid"
 	primazaiov1alpha1 "github.com/primaza/primaza/api/v1alpha1"
+	"github.com/primaza/primaza/pkg/primaza/constants"
 )
 
 type Dependencies []ServiceDependencies
@@ -20,7 +21,7 @@ func (d *ServiceDependencies) ToGraph() (mermaid.Graph, error) {
 			a := mermaid.Adjancency{
 				Start: c.Name,
 				End:   sb.Spec.ServiceEndpointDefinitionSecret,
-				Text:  sb.Name,
+				Text:  sb.Annotations[constants.BoundRegisteredServiceNameAnnotation],
 			}
 			g.Adjacencies = append(g.Adjacencies, a)
 		}

@@ -2,18 +2,18 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: myapp
-  name: myapp
+    app: orders-events-consumer
+  name: orders-events-consumer
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: myapp
+      app: orders-events-consumer
   strategy: {}
   template:
     metadata:
       labels:
-        app: myapp
+        app: orders-events-consumer
     spec:
       containers:
       - command:
