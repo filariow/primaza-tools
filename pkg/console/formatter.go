@@ -10,6 +10,8 @@ type Formatter interface {
 
 func NewFormatter(format Format) (Formatter, error) {
 	switch format {
+	case FormatHTML:
+		return &HTMLFormatter{}, nil
 	case FormatJson:
 		return &JsonFormatter{}, nil
 	case FormatMermaid:

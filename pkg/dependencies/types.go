@@ -37,5 +37,13 @@ func (d *ServiceDependencies) ToGraph() (mermaid.Graph, error) {
 		}
 	}
 
+	for _, rs := range d.RegisteredServices {
+		rsj, err := json.MarshalIndent(&rs, "", "  ")
+		if err == nil {
+			n := mermaid.Node{Name: rs.Name, Description: strings.ReplaceAll(string(rsj), "\"", "'")}
+			g.Nodes = append(g.Nodes, n)
+		}
+	}
+
 	return g, nil
 }
