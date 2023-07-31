@@ -3,6 +3,8 @@ package mermaid
 import (
 	"fmt"
 	"strings"
+
+	"golang.org/x/net/html"
 )
 
 var (
@@ -27,14 +29,25 @@ type Adjancency struct {
 }
 
 func (m Graph) String() string {
+	f := func(s string) string {
+		return html.EscapeString(s)
+	}
+	return m.StringFormat(f)
+}
+
+func (m Graph) StringUnescaped() string {
+	return m.StringFormat(func(s string) string { return s })
+}
+
+func (m Graph) StringFormat(f func(string) string) string {
 	b := strings.Builder{}
 
 	b.WriteString(fmt.Sprintf("graph TD;\n"))
-	b.WriteString(fmt.Sprintf("\taccTitle: %s;\n", m.Name))
+	b.WriteString(fmt.Sprintf("\taccTitle: %s;\n", f(m.Name)))
 
 	for _, a := range m.Adjacencies {
-		b.WriteString(fmt.Sprintf("\t%s --> %s;\n", a.Start, a.Text))
-		b.WriteString(fmt.Sprintf("\t%s --> %s;\n", a.Text, a.End))
+		b.WriteString(fmt.Sprintf("\t%s --> %s;\n", f(a.Start), f(a.Text)))
+		b.WriteString(fmt.Sprintf("\t%s --> %s;\n", f(a.Text), f(a.End)))
 	}
 
 	if len(m.Nodes) != 0 {
@@ -42,7 +55,7 @@ func (m Graph) String() string {
 	}
 
 	for _, n := range m.Nodes {
-		b.WriteString(fmt.Sprintf("\tclick %s callback \"%s\"\n", n.Name, n.Description))
+		b.WriteString(fmt.Sprintf("\tclick %s call callback()\n", f(n.Name)))
 	}
 
 	return b.String()

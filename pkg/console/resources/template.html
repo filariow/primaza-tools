@@ -1,14 +1,33 @@
-<div class="mermaid">
-{{.Graph}}
-</div>
+<html lang="en">
+    <body>
+        <pre class="mermaid">{{.Graph}}</pre>
+        <div><pre><code class="language-yaml line-numbers" id="mermaid-description"></code></pre></div>
+        <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
 
-<script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+        <script>
+            mermaid.initialize({startOnLoad:true, securityLevel: 'loose'});
 
-<script>
-    mermaid.initialize({startOnLoad:true});
-</script>
+            var nodes = JSON.parse("{{.NodesJSON}}");
 
-<style>
-    .mermaid {  /* add custom styling */  }
-</style>
+            function callback(e) {
+                n = nodes.find(el => el.Name == e)
+                r = JSON.parse(n.Description);
+                console.log(r);
+                nj = JSON.stringify(r, undefined, 2);
+
+                document.getElementById("mermaid-description").textContent = nj;
+            }
+        </script>
+
+        <style>
+            .mermaid {  /* add custom styling */  }
+            pre code {
+                background-color: #eee;
+                border: 1px solid #999;
+                display: block;
+                padding: 20px;
+            }
+        </style>
+    </body>
+</html>
 

@@ -2,7 +2,6 @@ package dependencies
 
 import (
 	"encoding/json"
-	"strings"
 
 	"github.com/primaza/primaza-tools/pkg/mermaid"
 	primazaiov1alpha1 "github.com/primaza/primaza/api/v1alpha1"
@@ -31,7 +30,7 @@ func (d *ServiceDependencies) ToGraph() (mermaid.Graph, error) {
 
 			sbj, err := json.MarshalIndent(&sb, "", "  ")
 			if err == nil {
-				n := mermaid.Node{Name: a.Text, Description: strings.ReplaceAll(string(sbj), "\"", "'")}
+				n := mermaid.Node{Name: a.Text, Description: string(sbj)}
 				g.Nodes = append(g.Nodes, n)
 			}
 		}
@@ -40,7 +39,7 @@ func (d *ServiceDependencies) ToGraph() (mermaid.Graph, error) {
 	for _, rs := range d.RegisteredServices {
 		rsj, err := json.MarshalIndent(&rs, "", "  ")
 		if err == nil {
-			n := mermaid.Node{Name: rs.Name, Description: strings.ReplaceAll(string(rsj), "\"", "'")}
+			n := mermaid.Node{Name: rs.Name, Description: string(rsj)}
 			g.Nodes = append(g.Nodes, n)
 		}
 	}
