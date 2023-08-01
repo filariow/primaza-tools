@@ -21,7 +21,7 @@ THE SOFTWARE.
 */
 package main
 
-import "github.com/primaza/primaza-tools/cmd/primaza-adm/cmd"
+import "github.com/primaza/primaza-tools/cmd/primaza-mon/cmd"
 
 func main() {
 	cmd.Execute()

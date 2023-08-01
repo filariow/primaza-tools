@@ -34,14 +34,14 @@ jobs:
       - name: Build
         run: |
           make build
-          mv out/primaza-adm out/primaza-adm-${{ matrix.os }}-${{ matrix.arch }}
+          mv out/primaza-mon out/primaza-mon-${{ matrix.os }}-${{ matrix.arch }}
 
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
           prerelease: true
           files: |
-            ./out/primaza-adm-${{ matrix.os }}-${{ matrix.arch }}
+            ./out/primaza-mon-${{ matrix.os }}-${{ matrix.arch }}
 
   buildwin:
     name: Deploy releases for Windows
@@ -67,14 +67,14 @@ jobs:
       - name: Build
         run: |
           make build
-          mv out/primaza-adm out/primaza-adm-${{ matrix.os }}-${{ matrix.arch }}.exe
+          mv out/primaza-mon out/primaza-mon-${{ matrix.os }}-${{ matrix.arch }}.exe
 
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
           prerelease: true
           files: |
-            ./out/primaza-adm-${{ matrix.os }}-${{ matrix.arch }}.exe
+            ./out/primaza-mon-${{ matrix.os }}-${{ matrix.arch }}.exe
 
   buildmac:
     name: Deploy releases for Mac
@@ -100,11 +100,11 @@ jobs:
       - name: Build
         run: |
           make build
-          mv out/primaza-adm out/primaza-adm-${{ matrix.os }}-${{ matrix.arch }}
+          mv out/primaza-mon out/primaza-mon-${{ matrix.os }}-${{ matrix.arch }}
 
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
           prerelease: true
           files: |
-            ./out/primaza-adm-${{ matrix.os }}-${{ matrix.arch }}
+            ./out/primaza-mon-${{ matrix.os }}-${{ matrix.arch }}

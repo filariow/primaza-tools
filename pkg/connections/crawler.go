@@ -1,4 +1,4 @@
-package dependencies
+package connections
 
 import (
 	"context"
@@ -12,15 +12,15 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client"
 )
 
-type ServiceDependenciesCrawler struct {
+type ServiceConnectionsCrawler struct {
 	cli client.Client
 }
 
-func NewServiceDependeciesCrawler(cli client.Client) *ServiceDependenciesCrawler {
-	return &ServiceDependenciesCrawler{cli: cli}
+func NewServiceDependeciesCrawler(cli client.Client) *ServiceConnectionsCrawler {
+	return &ServiceConnectionsCrawler{cli: cli}
 }
 
-func (c *ServiceDependenciesCrawler) fetchRegisteredService(
+func (c *ServiceConnectionsCrawler) fetchRegisteredService(
 	ctx context.Context,
 	pcli *primaza.ControlPlaneClient,
 	tenant string,
@@ -40,7 +40,7 @@ func (c *ServiceDependenciesCrawler) fetchRegisteredService(
 	return pcli.GetRegisteredService(ctx, tenant, rsn)
 }
 
-func (c *ServiceDependenciesCrawler) CrawlServiceDependencies(ctx context.Context, tenant string) ([]ServiceDependencies, error) {
+func (c *ServiceConnectionsCrawler) CrawlServiceConnections(ctx context.Context, tenant string) ([]ServiceConnections, error) {
 	pcli := primaza.NewControlPlaneClient(c.cli)
 
 	cee, err := pcli.ListClusterEnvironments(ctx, tenant)
@@ -48,7 +48,7 @@ func (c *ServiceDependenciesCrawler) CrawlServiceDependencies(ctx context.Contex
 		return nil, err
 	}
 
-	sdd := []ServiceDependencies{}
+	sdd := []ServiceConnections{}
 	errs := []error{}
 	rss := map[string]*primazaiov1alpha1.RegisteredService{}
 
@@ -59,7 +59,7 @@ func (c *ServiceDependenciesCrawler) CrawlServiceDependencies(ctx context.Contex
 			errs = append(errs, werr)
 			continue
 		}
-		sd := ServiceDependencies{
+		sd := ServiceConnections{
 			ClusterEnvironment: ce,
 			ServiceBindings:    []primazaiov1alpha1.ServiceBinding{},
 			RegisteredServices: []primazaiov1alpha1.RegisteredService{},

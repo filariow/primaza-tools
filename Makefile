@@ -54,7 +54,7 @@ test:
 
 ##@ Build
 build: ## build the cli
-	$(GO) build -ldflags="-s -w" -trimpath -o out/primaza-adm ./cmd/primaza-adm/main.go
+	$(GO) build -ldflags="-s -w" -trimpath -o out/primaza-mon ./cmd/primaza-mon/main.go
 
 ##@ Linters
 

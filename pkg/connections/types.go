@@ -1,4 +1,4 @@
-package dependencies
+package connections
 
 import (
 	"encoding/json"
@@ -9,16 +9,16 @@ import (
 	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
 )
 
-type Dependencies []ServiceDependencies
+type Connections []ServiceConnections
 
-type ServiceDependencies struct {
+type ServiceConnections struct {
 	ClusterEnvironment primazaiov1alpha1.ClusterEnvironment
 	ServiceBindings    []primazaiov1alpha1.ServiceBinding
 	RegisteredServices []primazaiov1alpha1.RegisteredService
 	Workloads          []unstructured.Unstructured
 }
 
-func (d *ServiceDependencies) ToGraph() (mermaid.Graph, error) {
+func (d *ServiceConnections) ToGraph() (mermaid.Graph, error) {
 	g := mermaid.Graph{Name: d.ClusterEnvironment.Name, Adjacencies: []mermaid.Adjancency{}, Nodes: []mermaid.Node{}}
 
 	for _, sb := range d.ServiceBindings {
