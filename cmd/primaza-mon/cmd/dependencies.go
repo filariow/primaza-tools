@@ -38,6 +38,8 @@ var connectionsCmd = &cobra.Command{
 
 		errs := []error{}
 		for _, sd := range sdd {
+			sd := sd
+
 			if err := printer.Println(&sd); err != nil {
 				errs = append(errs, err)
 			}

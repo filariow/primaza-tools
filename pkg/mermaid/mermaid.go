@@ -8,7 +8,7 @@ import (
 )
 
 var (
-	InvalidTypeError error = fmt.Errorf("given object can not be serialized as mermaid")
+	ErrInvalidType error = fmt.Errorf("given object can not be serialized as mermaid")
 )
 
 type Graph struct {
@@ -29,10 +29,7 @@ type Adjancency struct {
 }
 
 func (m Graph) String() string {
-	f := func(s string) string {
-		return html.EscapeString(s)
-	}
-	return m.StringFormat(f)
+	return m.StringFormat(html.EscapeString)
 }
 
 func (m Graph) StringUnescaped() string {
@@ -42,7 +39,7 @@ func (m Graph) StringUnescaped() string {
 func (m Graph) StringFormat(f func(string) string) string {
 	b := strings.Builder{}
 
-	b.WriteString(fmt.Sprintf("graph TD;\n"))
+	b.WriteString("graph TD;\n")
 	b.WriteString(fmt.Sprintf("\taccTitle: %s;\n", f(m.Name)))
 
 	for _, a := range m.Adjacencies {
@@ -68,7 +65,7 @@ type Graphable interface {
 func NewGraph(v any) (*Graph, error) {
 	g, ok := v.(Graphable)
 	if !ok {
-		return nil, InvalidTypeError
+		return nil, ErrInvalidType
 	}
 
 	gh, err := g.ToGraph()

@@ -23,6 +23,8 @@ func (d *ServiceConnections) ToGraph() (mermaid.Graph, error) {
 
 	for _, sb := range d.ServiceBindings {
 		for _, c := range sb.Status.Connections {
+			sb := sb
+
 			a := mermaid.Adjancency{
 				Start: c.Name,
 				End:   sb.Annotations[constants.BoundRegisteredServiceNameAnnotation],
@@ -39,6 +41,8 @@ func (d *ServiceConnections) ToGraph() (mermaid.Graph, error) {
 	}
 
 	for _, rs := range d.RegisteredServices {
+		rs := rs
+
 		rsj, err := json.MarshalIndent(&rs, "", "  ")
 		if err == nil {
 			n := mermaid.Node{Name: rs.Name, Description: string(rsj)}
@@ -47,6 +51,7 @@ func (d *ServiceConnections) ToGraph() (mermaid.Graph, error) {
 	}
 
 	for _, w := range d.Workloads {
+		w := w
 		wj, err := json.MarshalIndent(&w, "", "  ")
 		if err == nil {
 			n := mermaid.Node{Name: w.GetName(), Description: string(wj)}
