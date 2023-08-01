@@ -6,6 +6,7 @@ import (
 	"github.com/primaza/primaza-tools/pkg/mermaid"
 	primazaiov1alpha1 "github.com/primaza/primaza/api/v1alpha1"
 	"github.com/primaza/primaza/pkg/primaza/constants"
+	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
 )
 
 type Dependencies []ServiceDependencies
@@ -14,6 +15,7 @@ type ServiceDependencies struct {
 	ClusterEnvironment primazaiov1alpha1.ClusterEnvironment
 	ServiceBindings    []primazaiov1alpha1.ServiceBinding
 	RegisteredServices []primazaiov1alpha1.RegisteredService
+	Workloads          []unstructured.Unstructured
 }
 
 func (d *ServiceDependencies) ToGraph() (mermaid.Graph, error) {
@@ -44,5 +46,12 @@ func (d *ServiceDependencies) ToGraph() (mermaid.Graph, error) {
 		}
 	}
 
+	for _, w := range d.Workloads {
+		wj, err := json.MarshalIndent(&w, "", "  ")
+		if err == nil {
+			n := mermaid.Node{Name: w.GetName(), Description: string(wj)}
+			g.Nodes = append(g.Nodes, n)
+		}
+	}
 	return g, nil
 }
