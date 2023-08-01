@@ -17,3 +17,29 @@ You can setup a test environment using the script `hack/create_env.sh` and then 
 primaza-mon get connections primaza-mytenant -o html > primaza-mytenant-graph.html
 ```
 
+The result would be similar to the following:
+
+```mermaid
+graph TD;
+	accTitle: self-demo;
+	catalog --> catalog-rds;
+	catalog-rds --> rds-postgres;
+	orders --> orders-dynamo;
+	orders-dynamo --> dynamo;
+	catalog --> sqs-catalog;
+	sqs-catalog --> sqs-queue-reader;
+	orders-events-consumer --> sqs-orders-event;
+	sqs-orders-event --> sqs-queue-writer;
+
+	click catalog-rds call callback()
+	click orders-dynamo call callback()
+	click sqs-catalog call callback()
+	click sqs-orders-event call callback()
+	click rds-postgres call callback()
+	click dynamo call callback()
+	click sqs-queue-reader call callback()
+	click sqs-queue-writer call callback()
+	click catalog call callback()
+	click orders call callback()
+	click orders-events-consumer call callback()
+```
